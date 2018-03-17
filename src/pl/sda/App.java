@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * author:
@@ -67,24 +68,26 @@ public class App {
 
 
         while (line != null) {
-
             if(line.contains("<link rel=\"next\"")){
                 nextPage = true;
             }
 
             if (line.contains(imgHtml)) {
-                index++;
-                String img = getImg(line);
-                product.setImg(img);
-            } else if (line.contains(titleHtml)) {
-                index++;
-                line = getTitle(line);
-                product.setTitle(line);
+                if(!line.contains("slide-lazy-img")) {
+                    index++;
+                    String img = getImg(line);
+                    if (Objects.equals(img, "")) {
+                        img = "Image not found";
+                    }
+                    String title = getTitle(line);
+                    product.setImg(img);
+                    product.setTitle(title);
+                }
             } else if (line.contains(priceHtml)) {
                 index++;
                 String price = getPrice(line);
                 product.setPrice(price);
-            } else if (index == 3) {
+            } else if (index == 2) {
                 productList.add(product);
                 product = new Product();
                 index = 0;
@@ -96,13 +99,15 @@ public class App {
     }
 
     private String getImg(String line) {
-        line = line.substring(line.indexOf("image.ceneostatic.pl"), line.indexOf("\" data-preloader"));
+        int indexFront = line.indexOf("image.ceneostatic.pl");
+        int indexEnd = line.indexOf("\" data-preloader");
+        line = line.substring(indexFront,indexEnd);
         return imageService.getImgInBase64("http://"+line);
     }
 
     private String getTitle(String line) {
-        line = line.substring(line.indexOf(">"), line.indexOf("</div>"));
-        line = line.replace(">", "");
+        line = line.substring(line.indexOf("data-preloader alt="), line.indexOf("\">"));
+        line = line.replace("data-preloader alt=\"", "");
         return line;
     }
 

@@ -17,9 +17,9 @@ import java.net.URL;
 public class ImageService {
     public String getImgInBase64(String line) {
         try {
-            Image image = savePhotoFromUrl(line);
-            BufferedImage bufferedImage = convertToBufferedImg(image);
-            return encodeImgToBase64(bufferedImage);
+            BufferedImage image = savePhotoFromUrl(line);
+            //BufferedImage bufferedImage = convertToBufferedImg(image);
+            return encodeImgToBase64(image);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,7 +32,7 @@ public class ImageService {
             String imageString;
             ByteArrayOutputStream bAOS = new ByteArrayOutputStream();
 
-            ImageIO.write(bufferedImage, "img", bAOS);
+            ImageIO.write(bufferedImage, "png", bAOS);
             byte[] imagebytes = bAOS.toByteArray();
 
             BASE64Encoder encoder = new BASE64Encoder();
@@ -44,17 +44,18 @@ public class ImageService {
         return null;
     }
 
-    private Image savePhotoFromUrl(String line){
-        Image image;
+    private BufferedImage savePhotoFromUrl(String line){
+        BufferedImage image;
         try {
             URL url = new URL(line);
             image = ImageIO.read(url);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Brak zdejcia" + e.getCause());
             return null;
 
         }
         return image;
+
     }
 
     private BufferedImage convertToBufferedImg(Image image) {
