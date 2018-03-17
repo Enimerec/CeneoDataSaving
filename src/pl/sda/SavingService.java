@@ -15,7 +15,7 @@ import java.io.File;
 public class SavingService {
 
     public void saveToXml(Products products) throws JAXBException {
-        File file = new File("C:\\Users\\Mateusz\\Desktop\\file.xml");
+        File file = new File();//path to file
 
         JAXBContext jaxbContext = JAXBContext.newInstance(Products.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
