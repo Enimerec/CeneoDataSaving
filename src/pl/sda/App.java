@@ -23,7 +23,7 @@ public class App {
         List<Product> productList = new ArrayList<>();
         String contex = ";0020-30-0-0-0.htm";
         urlSet = urlSet + contex ;
-        int maxPages = 2;
+        int maxPages = 100;
 
         for (int i = 1; i < maxPages; i++) {
             try {
@@ -83,7 +83,8 @@ public class App {
                     product.setImg(img);
                     product.setTitle(title);
                 }
-            } else if (line.contains(priceHtml)) {
+            } else if (line.contains(priceHtml)||
+                    (line.contains("<span class=\"price-row"))&& product.getTitle()!=null) {
                 index++;
                 String price = getPrice(line);
                 product.setPrice(price);
