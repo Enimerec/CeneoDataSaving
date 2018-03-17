@@ -17,6 +17,9 @@ public class Main {
         String url = sc.nextLine();
         url = url.replaceAll(" ","_");
         url = "https://www.ceneo.pl/"+url;
-        app.app(url);
+        System.out.println("Prosze podac sciezke do miejsca w ktorym maja zostac zapisane dane");
+        System.out.println("Na przykład \"C:\\\\Users\\\\User\\\\Desktop\\\\file.xml\"");
+        String path = sc.nextLine();
+        app.app(url,path);
     }
 }

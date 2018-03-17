@@ -19,7 +19,7 @@ public class App {
     private boolean nextPage = false;
     private ImageService imageService = new ImageService();
     private SavingService savingService = new SavingService();
-    public void app(String urlSet) {
+    public void app(String urlSet,String path) {
         List<Product> productList = new ArrayList<>();
         String contex = ";0020-30-0-0-0.htm";
         urlSet = urlSet + contex ;
@@ -54,7 +54,7 @@ public class App {
         Products products = new Products();
         products.setProductList(productList);
         try {
-            savingService.saveToXml(products);
+            savingService.saveToXml(products,path);
         } catch (JAXBException e) {
             e.printStackTrace();
         }
